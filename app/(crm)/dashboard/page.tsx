@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useMemo } from "react"
+import { useState, useMemo, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { useCRMStore } from "@/lib/store"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -26,6 +26,11 @@ export default function DashboardPage() {
   const { clients, activities } = useCRMStore()
   const [clientDialog, setClientDialog] = useState(false)
   const [activityDialog, setActivityDialog] = useState(false)
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   const stats = useMemo(() => {
     const totalClients = clients.length
@@ -189,11 +194,11 @@ export default function DashboardPage() {
                       onClick={() => client && router.push(`/clients/${client.id}`)}
                     >
                       <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-xs font-bold text-primary">
-                        {format(parseISO(a.termin), "dd")}
+                        {mounted ? format(parseISO(a.termin), "dd") : "--"}
                       </div>
                       <div className="flex-1 min-w-0">
                         <p className="text-sm font-medium text-foreground truncate">{a.tytul}</p>
-                        <p className="text-xs text-muted-foreground">{client?.nazwa_firmy} | {getActivityDateLabel(a.termin)} {format(parseISO(a.termin), "HH:mm")}</p>
+                        <p className="text-xs text-muted-foreground">{client?.nazwa_firmy} | {mounted ? `${getActivityDateLabel(a.termin)} ${format(parseISO(a.termin), "HH:mm")}` : "..."}</p>
                       </div>
                       <span className="rounded bg-muted px-1.5 py-0.5 text-xs text-muted-foreground shrink-0">{a.typ}</span>
                     </div>
