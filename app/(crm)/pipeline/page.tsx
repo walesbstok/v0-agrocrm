@@ -1,6 +1,6 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { useRouter } from "next/navigation"
 import { useCRMStore } from "@/lib/store"
 import { SegmentBadge } from "@/components/segment-badge"
