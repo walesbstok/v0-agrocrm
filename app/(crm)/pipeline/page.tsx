@@ -83,7 +83,7 @@ function KanbanColumn({ stage, clients, onCardClick }: { stage: OpportunityStatu
   const { setNodeRef, isOver } = useDroppable({ id: stage })
 
   return (
-    <div className="flex w-[280px] shrink-0 flex-col rounded-lg bg-muted/50">
+    <div className="flex w-[240px] sm:w-[280px] shrink-0 flex-col rounded-lg bg-muted/50">
       <div className="flex items-center gap-2 p-3 pb-2">
         <div className={`h-2.5 w-2.5 rounded-full ${stageColors[stage]}`} />
         <h3 className="text-sm font-semibold text-foreground">{stage}</h3>
@@ -143,8 +143,8 @@ export default function PipelinePage() {
 
   return (
     <div className="p-4 lg:p-6">
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-foreground">Pipeline</h1>
+      <div className="mb-4">
+        <h1 className="text-xl font-bold text-foreground sm:text-2xl">Pipeline</h1>
         <p className="text-sm text-muted-foreground">Zarzadzaj szansami sprzedazowymi</p>
       </div>
 

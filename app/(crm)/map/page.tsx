@@ -6,12 +6,12 @@ const MapContent = dynamic(() => import("@/components/map-content"), { ssr: fals
 
 export default function MapPage() {
   return (
-    <div className="flex h-full flex-col">
-      <div className="p-4 lg:p-6 pb-0 lg:pb-0">
-        <h1 className="text-2xl font-bold text-foreground">Mapa</h1>
+    <div className="flex h-[calc(100vh-56px)] md:h-full flex-col">
+      <div className="px-4 pt-4 pb-2 lg:px-6 lg:pt-6">
+        <h1 className="text-xl font-bold text-foreground sm:text-2xl">Mapa</h1>
         <p className="text-sm text-muted-foreground">Lokalizacja klientow</p>
       </div>
-      <div className="flex-1 p-4 lg:p-6 pt-3 lg:pt-3">
+      <div className="flex-1 px-4 pb-4 lg:px-6 lg:pb-6 min-h-0">
         <MapContent />
       </div>
     </div>

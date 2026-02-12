@@ -42,12 +42,12 @@ export default function CalendarPage() {
 
   return (
     <div className="p-4 lg:p-6">
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-foreground">Kalendarz</h1>
+      <div className="mb-4">
+        <h1 className="text-xl font-bold text-foreground sm:text-2xl">Kalendarz</h1>
         <p className="text-sm text-muted-foreground">Przegladaj zaplanowane aktywnosci</p>
       </div>
 
-      <div className="rounded-lg border border-border bg-card p-4">
+      <div className="rounded-lg border border-border bg-card p-2 sm:p-4">
         <CalendarView events={events} onEventClick={(id: string) => setSelectedActivity(id)} />
       </div>
 

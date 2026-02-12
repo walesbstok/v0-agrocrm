@@ -15,14 +15,12 @@ import {
   PieChart,
   Pie,
   Cell,
-  Legend,
 } from "recharts"
 import { TrendingUp, Users, BarChart3 } from "lucide-react"
 import type { OpportunityStatus, ActivityType } from "@/lib/types"
 
 const ACTIVITY_COLORS = "#2E7D32"
 const PIE_COLORS = ["#2E7D32", "#E6A817", "#1565C0"]
-const SEGMENT_COLORS = { A: "#7C3AED", B: "#7C3AED", C: "#7C3AED" }
 
 export default function ReportsPage() {
   const { clients, activities } = useCRMStore()
@@ -72,26 +70,27 @@ export default function ReportsPage() {
 
   return (
     <div className="p-4 lg:p-6">
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-foreground">Raporty</h1>
+      <div className="mb-4">
+        <h1 className="text-xl font-bold text-foreground sm:text-2xl">Raporty</h1>
         <p className="text-sm text-muted-foreground">Analiza danych sprzedazowych</p>
       </div>
 
+      {/* Charts grid - single col on mobile, 2 cols on desktop */}
       <div className="grid gap-4 lg:grid-cols-2">
         {/* Activity by type - horizontal bar */}
         <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="flex items-center gap-2 text-base">
+          <CardHeader className="pb-2 px-4 pt-4 sm:px-6 sm:pt-6">
+            <CardTitle className="flex items-center gap-2 text-sm sm:text-base">
               <BarChart3 className="h-4 w-4 text-primary" />
               Aktywnosci wedlug typu
             </CardTitle>
           </CardHeader>
-          <CardContent>
-            <ResponsiveContainer width="100%" height={260}>
-              <BarChart data={activityByType} layout="vertical" margin={{ left: 20, right: 20, top: 5, bottom: 5 }}>
+          <CardContent className="px-2 pb-4 sm:px-6 sm:pb-6">
+            <ResponsiveContainer width="100%" height={220}>
+              <BarChart data={activityByType} layout="vertical" margin={{ left: 10, right: 10, top: 5, bottom: 5 }}>
                 <CartesianGrid strokeDasharray="3 3" horizontal={false} />
-                <XAxis type="number" allowDecimals={false} />
-                <YAxis dataKey="name" type="category" width={80} tick={{ fontSize: 12 }} />
+                <XAxis type="number" allowDecimals={false} tick={{ fontSize: 11 }} />
+                <YAxis dataKey="name" type="category" width={70} tick={{ fontSize: 11 }} />
                 <Tooltip formatter={(value: number) => [value, "Ilosc"]} />
                 <Bar dataKey="count" fill={ACTIVITY_COLORS} radius={[0, 4, 4, 0]} />
               </BarChart>
@@ -101,20 +100,21 @@ export default function ReportsPage() {
 
         {/* Clients by status - pie */}
         <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="flex items-center gap-2 text-base">
+          <CardHeader className="pb-2 px-4 pt-4 sm:px-6 sm:pt-6">
+            <CardTitle className="flex items-center gap-2 text-sm sm:text-base">
               <Users className="h-4 w-4 text-primary" />
               Klienci wedlug statusu
             </CardTitle>
           </CardHeader>
-          <CardContent>
-            <ResponsiveContainer width="100%" height={260}>
+          <CardContent className="px-2 pb-4 sm:px-6 sm:pb-6">
+            <ResponsiveContainer width="100%" height={220}>
               <PieChart>
                 <Pie
                   data={clientsByStatus}
                   cx="50%"
                   cy="50%"
-                  outerRadius={90}
+                  outerRadius={80}
+                  innerRadius={40}
                   dataKey="value"
                   label={({ name, percent }) => `${name} (${(percent * 100).toFixed(0)}%)`}
                   labelLine={false}
@@ -131,18 +131,18 @@ export default function ReportsPage() {
 
         {/* Pipeline by stage - vertical bar */}
         <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="flex items-center gap-2 text-base">
+          <CardHeader className="pb-2 px-4 pt-4 sm:px-6 sm:pt-6">
+            <CardTitle className="flex items-center gap-2 text-sm sm:text-base">
               <TrendingUp className="h-4 w-4 text-primary" />
               Pipeline wedlug etapu
             </CardTitle>
           </CardHeader>
-          <CardContent>
-            <ResponsiveContainer width="100%" height={260}>
-              <BarChart data={pipelineByStage} margin={{ left: 0, right: 20, top: 5, bottom: 5 }}>
+          <CardContent className="px-2 pb-4 sm:px-6 sm:pb-6">
+            <ResponsiveContainer width="100%" height={220}>
+              <BarChart data={pipelineByStage} margin={{ left: 0, right: 10, top: 5, bottom: 5 }}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                <XAxis dataKey="name" tick={{ fontSize: 11, angle: -30 }} height={60} />
-                <YAxis allowDecimals={false} />
+                <XAxis dataKey="name" tick={{ fontSize: 10, angle: -30 }} height={50} />
+                <YAxis allowDecimals={false} tick={{ fontSize: 11 }} />
                 <Tooltip formatter={(value: number) => [value, "Klientow"]} />
                 <Bar dataKey="count" fill="#1565C0" radius={[4, 4, 0, 0]} />
               </BarChart>
@@ -152,18 +152,18 @@ export default function ReportsPage() {
 
         {/* Value by segment - vertical bar */}
         <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="flex items-center gap-2 text-base">
+          <CardHeader className="pb-2 px-4 pt-4 sm:px-6 sm:pt-6">
+            <CardTitle className="flex items-center gap-2 text-sm sm:text-base">
               <Users className="h-4 w-4 text-primary" />
               Wartosc wedlug segmentu
             </CardTitle>
           </CardHeader>
-          <CardContent>
-            <ResponsiveContainer width="100%" height={260}>
-              <BarChart data={valueBySegment} margin={{ left: 20, right: 20, top: 5, bottom: 5 }}>
+          <CardContent className="px-2 pb-4 sm:px-6 sm:pb-6">
+            <ResponsiveContainer width="100%" height={220}>
+              <BarChart data={valueBySegment} margin={{ left: 10, right: 10, top: 5, bottom: 5 }}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                <XAxis dataKey="name" tick={{ fontSize: 12 }} />
-                <YAxis tickFormatter={(v) => `${(v / 1000).toFixed(0)}k`} />
+                <XAxis dataKey="name" tick={{ fontSize: 11 }} />
+                <YAxis tickFormatter={(v) => `${(v / 1000).toFixed(0)}k`} tick={{ fontSize: 11 }} />
                 <Tooltip formatter={(value: number) => [`${value.toLocaleString("pl-PL")} zl`, "Wartosc"]} />
                 <Bar dataKey="value" fill="#7C3AED" radius={[4, 4, 0, 0]} />
               </BarChart>
@@ -173,13 +173,13 @@ export default function ReportsPage() {
       </div>
 
       {/* Segment summary cards */}
-      <div className="mt-4 grid gap-4 sm:grid-cols-3">
+      <div className="mt-4 grid gap-3 grid-cols-1 sm:grid-cols-3">
         {segmentSummary.map((s) => (
           <Card key={s.segment}>
-            <CardContent className="flex items-center justify-between p-4">
-              <div>
-                <p className="text-sm text-muted-foreground">Segment {s.segment}</p>
-                <p className="text-2xl font-bold text-foreground">{s.value.toLocaleString("pl-PL")} zl</p>
+            <CardContent className="flex items-center justify-between p-3 sm:p-4">
+              <div className="min-w-0">
+                <p className="text-xs text-muted-foreground">Segment {s.segment}</p>
+                <p className="text-xl sm:text-2xl font-bold text-foreground truncate">{s.value.toLocaleString("pl-PL")} zl</p>
                 <p className="text-xs text-muted-foreground">{s.count} klientow</p>
               </div>
               <SegmentBadge segment={s.segment} size="lg" />

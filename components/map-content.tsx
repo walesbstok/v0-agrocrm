@@ -150,19 +150,19 @@ export default function MapContent() {
       </div>
 
       {/* Legend */}
-      <div className="flex flex-wrap items-center gap-4 rounded-lg border border-border bg-card px-4 py-3">
-        <span className="text-sm font-medium text-foreground">Legenda:</span>
-        <div className="flex items-center gap-2">
-          <div className="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-600 text-xs font-bold text-white">A</div>
-          <span className="text-sm text-muted-foreground">{"Segment A (> 200k PLN)"}</span>
+      <div className="flex flex-wrap items-center gap-2 sm:gap-4 rounded-lg border border-border bg-card px-3 py-2 sm:px-4 sm:py-3">
+        <span className="text-xs sm:text-sm font-medium text-foreground">Legenda:</span>
+        <div className="flex items-center gap-1.5">
+          <div className="flex h-5 w-5 sm:h-6 sm:w-6 items-center justify-center rounded-full bg-emerald-600 text-[10px] sm:text-xs font-bold text-white">A</div>
+          <span className="text-[10px] sm:text-sm text-muted-foreground">{"A (> 200k)"}</span>
         </div>
-        <div className="flex items-center gap-2">
-          <div className="flex h-6 w-6 items-center justify-center rounded-full bg-blue-600 text-xs font-bold text-white">B</div>
-          <span className="text-sm text-muted-foreground">Segment B (50-200k PLN)</span>
+        <div className="flex items-center gap-1.5">
+          <div className="flex h-5 w-5 sm:h-6 sm:w-6 items-center justify-center rounded-full bg-blue-600 text-[10px] sm:text-xs font-bold text-white">B</div>
+          <span className="text-[10px] sm:text-sm text-muted-foreground">B (50-200k)</span>
         </div>
-        <div className="flex items-center gap-2">
-          <div className="flex h-6 w-6 items-center justify-center rounded-full bg-amber-500 text-xs font-bold text-white">C</div>
-          <span className="text-sm text-muted-foreground">{"Segment C (< 50k PLN)"}</span>
+        <div className="flex items-center gap-1.5">
+          <div className="flex h-5 w-5 sm:h-6 sm:w-6 items-center justify-center rounded-full bg-amber-500 text-[10px] sm:text-xs font-bold text-white">C</div>
+          <span className="text-[10px] sm:text-sm text-muted-foreground">{"C (< 50k)"}</span>
         </div>
       </div>
     </div>

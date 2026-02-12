@@ -59,3 +59,29 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* FullCalendar mobile fixes */
+@media (max-width: 640px) {
+  .fc .fc-toolbar {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .fc .fc-toolbar-title {
+    font-size: 1rem !important;
+  }
+  .fc .fc-button {
+    font-size: 0.75rem !important;
+    padding: 0.25rem 0.5rem !important;
+  }
+}
+
+/* Leaflet popup override for mobile */
+.leaflet-popup-content {
+  margin: 8px 12px !important;
+}
+
+@media (max-width: 640px) {
+  .leaflet-popup-content-wrapper {
+    max-width: 260px !important;
+  }
+}

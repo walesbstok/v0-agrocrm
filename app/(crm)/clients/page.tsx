@@ -22,8 +22,10 @@ import {
   CalendarPlus,
   Plus,
   Users,
+  MoreVertical,
 } from "lucide-react"
-import type { Client, ClientStatus, Segment } from "@/lib/types"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import type { Client } from "@/lib/types"
 
 export default function ClientsPage() {
   const router = useRouter()
@@ -58,19 +60,19 @@ export default function ClientsPage() {
 
   return (
     <div className="p-4 lg:p-6">
-      <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+      <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-foreground">Klienci</h1>
+          <h1 className="text-xl font-bold text-foreground sm:text-2xl">Klienci</h1>
           <p className="text-sm text-muted-foreground">Zarzadzaj baza klientow</p>
         </div>
-        <Button onClick={() => { setEditingClient(null); setClientDialog(true) }} className="gap-2">
+        <Button onClick={() => { setEditingClient(null); setClientDialog(true) }} className="gap-2 w-full sm:w-auto">
           <Plus className="h-4 w-4" />
           Dodaj klienta
         </Button>
       </div>
 
       {/* Filters */}
-      <div className="mb-4 flex flex-col gap-3 sm:flex-row">
+      <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:gap-3">
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
@@ -80,32 +82,99 @@ export default function ClientsPage() {
             className="pl-10"
           />
         </div>
-        <Select value={statusFilter} onValueChange={setStatusFilter}>
-          <SelectTrigger className="w-full sm:w-44">
-            <SelectValue placeholder="Wszystkie statusy" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">Wszystkie statusy</SelectItem>
-            <SelectItem value="Aktywny">Aktywny</SelectItem>
-            <SelectItem value="Prospekt">Prospekt</SelectItem>
-            <SelectItem value="Utracony">Utracony</SelectItem>
-          </SelectContent>
-        </Select>
-        <Select value={segmentFilter} onValueChange={setSegmentFilter}>
-          <SelectTrigger className="w-full sm:w-44">
-            <SelectValue placeholder="Wszystkie segmenty" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">Wszystkie segmenty</SelectItem>
-            <SelectItem value="A">Segment A</SelectItem>
-            <SelectItem value="B">Segment B</SelectItem>
-            <SelectItem value="C">Segment C</SelectItem>
-          </SelectContent>
-        </Select>
+        <div className="grid grid-cols-2 gap-2 sm:flex sm:gap-3">
+          <Select value={statusFilter} onValueChange={setStatusFilter}>
+            <SelectTrigger className="w-full sm:w-44">
+              <SelectValue placeholder="Wszystkie statusy" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Wszystkie statusy</SelectItem>
+              <SelectItem value="Aktywny">Aktywny</SelectItem>
+              <SelectItem value="Prospekt">Prospekt</SelectItem>
+              <SelectItem value="Utracony">Utracony</SelectItem>
+            </SelectContent>
+          </Select>
+          <Select value={segmentFilter} onValueChange={setSegmentFilter}>
+            <SelectTrigger className="w-full sm:w-44">
+              <SelectValue placeholder="Wszystkie segmenty" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Wszystkie segmenty</SelectItem>
+              <SelectItem value="A">Segment A</SelectItem>
+              <SelectItem value="B">Segment B</SelectItem>
+              <SelectItem value="C">Segment C</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
       </div>
 
-      {/* Table */}
-      <div className="rounded-lg border border-border bg-card overflow-x-auto">
+      {/* Mobile Card List */}
+      <div className="flex flex-col gap-3 md:hidden">
+        {filtered.map((c) => (
+          <div
+            key={c.id}
+            className="rounded-lg border border-border bg-card p-4"
+          >
+            <div className="flex items-start justify-between gap-2 mb-2">
+              <div className="flex-1 min-w-0" onClick={() => router.push(`/clients/${c.id}`)}>
+                <div className="flex items-center gap-2 flex-wrap">
+                  <h3 className="text-sm font-semibold text-foreground">{c.nazwa_firmy}</h3>
+                  <SegmentBadge segment={c.segment} />
+                  <StatusBadge status={c.status_klienta} />
+                </div>
+                <p className="text-xs text-muted-foreground mt-0.5">{c.miasto}</p>
+              </div>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <button className="shrink-0 rounded-md p-1.5 text-muted-foreground hover:bg-muted" aria-label="Wiecej opcji">
+                    <MoreVertical className="h-4 w-4" />
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem onClick={() => router.push(`/clients/${c.id}`)}>
+                    <Eye className="mr-2 h-4 w-4" /> Szczegoly
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => { setEditingClient(c); setClientDialog(true) }}>
+                    <Pencil className="mr-2 h-4 w-4" /> Edytuj
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="text-destructive" onClick={() => setDeleteId(c.id)}>
+                    <Trash2 className="mr-2 h-4 w-4" /> Usun
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+            <p className="text-xs text-muted-foreground mb-3">{c.email}</p>
+            <div className="flex items-center gap-2">
+              <a
+                href={getGoogleMapsUrl(c)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 rounded-md border border-border bg-card px-3 py-1.5 text-xs font-medium text-foreground hover:bg-muted transition-colors"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <Navigation className="h-3.5 w-3.5" />
+                Nawiguj
+              </a>
+              <button
+                onClick={() => { setActivityClientId(c.id); setActivityDialog(true) }}
+                className="inline-flex items-center gap-1.5 rounded-md border border-border bg-card px-3 py-1.5 text-xs font-medium text-foreground hover:bg-muted transition-colors"
+              >
+                <Plus className="h-3.5 w-3.5" />
+                Aktywnosc
+              </button>
+            </div>
+          </div>
+        ))}
+        {filtered.length === 0 && (
+          <div className="rounded-lg border border-border bg-card py-12 text-center text-muted-foreground">
+            <Users className="mx-auto mb-2 h-8 w-8" />
+            <p>Brak klientow pasujacych do filtrow</p>
+          </div>
+        )}
+      </div>
+
+      {/* Desktop Table */}
+      <div className="hidden md:block rounded-lg border border-border bg-card overflow-x-auto">
         <table className="w-full text-sm">
           <thead>
             <tr className="border-b border-border bg-muted/50">
@@ -201,17 +270,8 @@ export default function ClientsPage() {
         </table>
       </div>
 
-      <ClientFormDialog
-        open={clientDialog}
-        onOpenChange={setClientDialog}
-        editClient={editingClient}
-      />
-
-      <ActivityFormDialog
-        open={activityDialog}
-        onOpenChange={setActivityDialog}
-        prefillClientId={activityClientId}
-      />
+      <ClientFormDialog open={clientDialog} onOpenChange={setClientDialog} editClient={editingClient} />
+      <ActivityFormDialog open={activityDialog} onOpenChange={setActivityDialog} prefillClientId={activityClientId} />
 
       <AlertDialog open={!!deleteId} onOpenChange={(o) => !o && setDeleteId(null)}>
         <AlertDialogContent>

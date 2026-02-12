@@ -58,36 +58,36 @@ export default function ClientDetailPage({ params }: { params: Promise<{ id: str
   return (
     <div className="p-4 lg:p-6">
       {/* Header */}
-      <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-        <div className="flex items-start gap-3">
-          <Button variant="ghost" size="icon" onClick={() => router.push("/clients")} aria-label="Powrot">
+      <div className="mb-4 flex flex-col gap-3">
+        <div className="flex items-start gap-2">
+          <Button variant="ghost" size="icon" onClick={() => router.push("/clients")} aria-label="Powrot" className="shrink-0 -ml-1">
             <ArrowLeft className="h-5 w-5" />
           </Button>
-          <div>
-            <div className="flex items-center gap-3">
-              <h1 className="text-2xl font-bold text-foreground">{client.nazwa_firmy}</h1>
+          <div className="min-w-0">
+            <div className="flex items-center gap-2 flex-wrap">
+              <h1 className="text-lg font-bold text-foreground sm:text-2xl">{client.nazwa_firmy}</h1>
               <SegmentBadge segment={client.segment} size="lg" />
             </div>
-            <p className="text-sm text-muted-foreground">{client.miasto} | NIP: {client.nip}</p>
+            <p className="text-xs sm:text-sm text-muted-foreground">{client.miasto} | NIP: {client.nip}</p>
           </div>
         </div>
-        <div className="flex flex-wrap gap-2">
-          <Button variant="outline" asChild>
-            <a href={mapsUrl} target="_blank" rel="noopener noreferrer" className="gap-2">
-              <Navigation className="h-4 w-4" />
+        <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">
+          <Button variant="outline" size="sm" asChild>
+            <a href={mapsUrl} target="_blank" rel="noopener noreferrer" className="gap-1.5">
+              <Navigation className="h-3.5 w-3.5" />
               Nawiguj
             </a>
           </Button>
-          <Button variant="outline" className="gap-2" onClick={() => setActivityDialog(true)}>
-            <CalendarPlus className="h-4 w-4" />
-            Dodaj aktywnosc
+          <Button variant="outline" size="sm" className="gap-1.5" onClick={() => setActivityDialog(true)}>
+            <CalendarPlus className="h-3.5 w-3.5" />
+            Aktywnosc
           </Button>
-          <Button variant="outline" className="gap-2" onClick={() => setEditDialog(true)}>
-            <Pencil className="h-4 w-4" />
+          <Button variant="outline" size="sm" className="gap-1.5" onClick={() => setEditDialog(true)}>
+            <Pencil className="h-3.5 w-3.5" />
             Edytuj
           </Button>
-          <Button variant="outline" className="gap-2 text-destructive hover:bg-red-50" onClick={() => setDeleteDialog(true)}>
-            <Trash2 className="h-4 w-4" />
+          <Button variant="outline" size="sm" className="gap-1.5 text-destructive hover:bg-red-50" onClick={() => setDeleteDialog(true)}>
+            <Trash2 className="h-3.5 w-3.5" />
             Usun
           </Button>
         </div>
